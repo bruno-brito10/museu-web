@@ -19,6 +19,9 @@
         .table-container {
             margin-top: 20px;
         }
+        .feed-container {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -34,6 +37,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" id="listarObra">Listar Obras</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="verFeed">Ver Feed</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" id="logoutBtn">Logout</a>
@@ -89,11 +95,19 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Feed para exibir obras de outros usuários -->
+        <div id="feedObras" class="feed-container" style="display: none;">
+            <h3>Feed de Obras</h3>
+            <div id="feedContent" class="row">
+                <!-- Aqui serão adicionadas as obras dinamicamente -->
+            </div>
+        </div>
     </div>
 
     <!-- Modal para visualizar obra -->
-    <div class="modal fade" id="verObraModal" tabindex="-1" role="dialog" aria-labelledby="verObraModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" id="verObraModal" tabindex="-1" aria-labelledby="verObraModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="verObraModalLabel">Detalhes da Obra</h5>
@@ -102,16 +116,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="text-center">
-                        <img id="modalObraFoto" src="" alt="Foto da Obra" class="img-fluid">
-                    </div>
-                    <h3 id="modalObraNome"></h3>
-                    <p><strong>Autor:</strong> <span id="modalObraAutor"></span></p>
-                    <p><strong>Descrição:</strong></p>
+                    <img id="modalObraFoto" class="img-fluid mb-3" alt="Imagem da obra">
+                    <h4 id="modalObraNome"></h4>
+                    <p id="modalObraAutor"></p>
                     <p id="modalObraDescricao"></p>
-                    <h4>Postagens</h4>
+                    <h5>Postagens</h5>
                     <ul id="modalObraPostagens" class="list-group">
-                        <!-- As postagens serão adicionadas aqui -->
+                        <!-- Aqui serão adicionadas as postagens dinamicamente -->
                     </ul>
                 </div>
             </div>
@@ -119,7 +130,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../javascript/obras.js"></script>
