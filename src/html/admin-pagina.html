@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .admin-header {
+            background-color: #343a40;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .admin-container {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        .table-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho da página -->
+    <div class="admin-header">
+        <h1>Administração</h1>
+        <!-- Menu de navegação -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="listarUsuarios">Listar Usuários</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="removerUsuario">Remover Usuário</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="aceitarUsuario">Aceitar Usuário</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logoutBtn">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div class="container admin-container">
+        <!-- Tabela para listar usuários -->
+        <div id="tabelaUsuarios" class="table-container">
+            <h3 id="tituloTabela">Lista de Usuários</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th id="acoesHeader" style="display: none;">Ações</th> <!-- Inicialmente oculto -->
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    <!-- Aqui serão adicionadas as linhas da tabela dinamicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../javascript/adminChamadas.js"></script>
+    <script>
+        // Evento de logout
+        const logoutBtn = document.getElementById('logoutBtn');
+        logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem('usuario');
+            window.location.href = './login.html';
+        });
+
+        // Função para limpar a tabela
+        function limparTabela() {
+            document.getElementById('userTableBody').innerHTML = '';
+        }
+
+        // Eventos para navegação entre funcionalidades
+        document.getElementById('listarUsuarios').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('tituloTabela').textContent = 'Lista de Usuários';
+            limparTabela();
+            const usuario = JSON.parse(localStorage.getItem('usuario'));
+
+            listarUsuarios(usuario.email, usuario.id ,'Lista de Usuários');
+        });
+
+        document.getElementById('removerUsuario').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('tituloTabela').textContent = 'Remover Usuário';
+            limparTabela();
+            const usuario = JSON.parse(localStorage.getItem('usuario'));
+            listarUsuarios(usuario.email, usuario.id , 'Remover Usuário'); // Listar usuários e mostrar botão de remover
+        });
+
+        document.getElementById('aceitarUsuario').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('tituloTabela').textContent = 'Aceitar Usuário';
+            limparTabela();
+            const usuario = JSON.parse(localStorage.getItem('usuario'));
+            listarUsuarios(usuario.email, usuario.id ,'Aceitar Usuário'); // Listar usuários e mostrar botão de aceitar
+        });
+    </script>
+</body>
+</html>
