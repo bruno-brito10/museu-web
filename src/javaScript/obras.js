@@ -59,8 +59,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Listar obras
     async function listarObras() {
+        const usuario = JSON.parse(localStorage.getItem('usuario'));
+
         try {
-            const response = await fetch('http://localhost:3000/listar-obras', {
+            const response = await fetch(`http://localhost:3000/listar-obras/${usuario.id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -82,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Renderizar tabela de obras
     function renderObraTable(obras) {
+        const usuario = JSON.parse(localStorage.getItem('usuario'));
         obraTableBody.innerHTML = '';
         obras.forEach(obra => {
             const tr = document.createElement('tr');
@@ -90,10 +93,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${obra.nome}</td>
                 <td>${obra.autor}</td>
                 <td>${obra.dono}</td>
-                <td><img src="${obra.foto}" alt="Foto da Obra" style="width: 100px; height: auto;"></td>
                 <td>${obra.descricao}</td>
+                <td>
+                    <button class="btn btn-danger btn-sm remover-obra" data-id="${obra.id}">Remover</button>
+                </td>
             `;
             obraTableBody.appendChild(tr);
+
+            const btnRemover = tr.querySelector('.remover-obra');
+
+            btnRemover.addEventListener('click', async function() {
+                // Implemente a lógica para remover a obra com ID this.dataset.id
+                if (confirm('Tem certeza que deseja remover esta obra?')) {
+                    try {
+                        console.log({usuario, id: this.dataset.id})
+                        const response = await fetch(`http://localhost:3000/usuario/${usuario.id}/obra/${this.dataset.id}`, {
+                            method: 'DELETE',
+                        });
+
+                        const data = await response.json();
+                        if (!response.ok) {
+                            throw new Error(data.message || 'Erro ao remover obra');
+                        }
+
+                        adicionarObraMessage.innerHTML = '<div class="alert alert-success">Obra removida com sucesso!</div>';
+                        listarObras(); // Atualiza a lista após remover uma obra
+                    } catch (error) {
+                        console.error('Erro:', error.message);
+                        adicionarObraMessage.innerHTML = `<div class="alert alert-danger">Erro ao remover obra: ${error.message}</div>`;
+                    }
+                }
+            });
         });
+
+        
     }
 });
